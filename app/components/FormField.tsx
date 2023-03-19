@@ -24,7 +24,9 @@ const FormField = ({ title, name, type, isRequired, values }: Forms) => {
           className='bg-white w-full px-2 py-[6px] rounded  border-[#cbcbd2] border h-10 text-[#3f3f44] text-sm mb-3'>
           <option value={title}>{title}</option>
           {values.map((valueName: string) => (
-            <option value={valueName}>{valueName}</option>
+            <option key={valueName} value={valueName}>
+              {valueName}
+            </option>
           ))}
         </Field>
       ) : (
