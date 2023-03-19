@@ -1,25 +1,29 @@
 "use client";
 
-import FormField from "@/app/components/FormField";
-import { auth } from "@/app/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Formik, Form } from "formik";
+// import FormField from "@/app/components/FormField";
+// import { auth } from "@/app/firebase";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { Formik, Form } from "formik";
 
-interface Values {
-  password: string;
-}
-const RegisterPassword = ({ params }: { params: { slug: string } }) => {
-  async function handleRegister(values: Values) {
-    const res = await createUserWithEmailAndPassword(
-      auth,
-      params.slug,
-      values.password
-    );
-  }
-  console.log(params.slug);
-  return (
-    <div className='flex items-center justify-center h-screen'>
-      <div className='bg-white'>
+// interface Values {
+//   password: string;
+//   title: string;
+//   name: string;
+//   type: string;
+//   isRequired: true;
+// }
+// const RegisterPassword = ({ params }: { params: { slug: string } }) => {
+//   async function handleRegister(values: Values) {
+//     const res = await createUserWithEmailAndPassword(
+//       auth,
+//       params.slug,
+//       values.password
+//     );
+//   }
+//   console.log(params.slug);
+// return (
+//   <div className='flex items-center justify-center h-screen'>
+/* <div className='bg-white'>
         <Formik
           initialValues={{
             password: "",
@@ -39,9 +43,9 @@ const RegisterPassword = ({ params }: { params: { slug: string } }) => {
             </button>
           </Form>
         </Formik>
-      </div>
-    </div>
+      </div> */
+/* </div>
   );
 };
 
-export default RegisterPassword;
+export default RegisterPassword; */

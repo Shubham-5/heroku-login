@@ -125,30 +125,35 @@ const Register = ({ setUser }: any) => {
                   name='firstName'
                   isRequired={true}
                   type='text'
+                  values={[]}
                 />
                 <FormField
                   title='Last Name'
                   name='lastName'
                   isRequired={true}
                   type='text'
+                  values={[]}
                 />
                 <FormField
                   title='Email address'
                   name='email'
                   isRequired={true}
                   type='email'
+                  values={[]}
                 />
                 <FormField
                   title='Password'
                   name='password'
                   type='password'
                   isRequired={true}
+                  values={[]}
                 />
                 <FormField
                   title='Company Name'
                   name='companyName'
                   isRequired={false}
                   type='text'
+                  values={[]}
                 />
                 <FormField
                   title='Role'
