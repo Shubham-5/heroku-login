@@ -4,7 +4,7 @@ type Forms = {
   name?: string;
   type: string;
   isRequired: boolean;
-  values?: string[];
+  values: string[];
 };
 
 const FormField = ({ title, name, type, isRequired, values }: Forms) => {

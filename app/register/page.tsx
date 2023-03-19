@@ -85,7 +85,7 @@ const Register = ({ setUser }: any) => {
       </header>
       <div className='relative mb-4 '>
         <div className='p-4 bg-[#F9F9FB] mr-2 rounded'>
-          <section className='p-8 md:w-[360px] h-[710px]'>
+          <section className='p-8 md:w-[360px] h-[760px]'>
             <RegisterBenefits
               title='Heroku Account'
               subtitle='Create apps, connect databases and add-on services, and collaborate on your apps.'
