@@ -87,11 +87,40 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: #3a2778;
+  background: -webkit-linear-gradient(0% #533872, 50% #3a2778, 100% #533872);
+  background: linear-gradient(to, 50% #3a2778, 100% #533872);
+
+  font-family: "BentonSans", "Helvetica Neue", sans-serif;
 }
-/* input:-webkit-autofill {
-  box-shadow: inset 0 1px 2px rgba(203, 203, 210, 0.4),
-    inset 0 0 10px 1000px #fffedb;
-} */
+.input:-webkit-autofill {
+  background-color: white;
+}
+
+header {
+  background-image: url("https://signup.heroku.com/assets/page-illustration-11400c2a5109317ad7e99571ba2a42bc55522ffa8ea6f9dcdff99737ab6149ac.png");
+  background-size: 950px 160px;
+  background-color: #3a2778;
+  background-blend-mode: hue;
+  width: auto;
+  height: auto;
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+
+.form-section {
+  box-shadow: 0 0 0 1px rgba(89, 105, 128, 0.1),
+    0 3px 20px 0 rgba(89, 105, 128, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.signup-form {
+  background-image: url("https://signup.heroku.com/assets/page-illustration-11400c2a5109317ad7e99571ba2a42bc55522ffa8ea6f9dcdff99737ab6149ac.png");
+  background-size: 950px 160px;
+  width: auto;
+  height: auto;
+  background-repeat: no-repeat;
+  background-position: top left;
+  z-index: 100;
+}
 
 .panel-footer {
   padding: 20px;

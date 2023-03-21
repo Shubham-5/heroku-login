@@ -6,10 +6,10 @@ import FormField from "../components/FormField";
 import RegisterBenefits from "../components/RegisterBenefits";
 import Link from "next/link";
 import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { countries } from "./CountryList";
 
 interface Values {
   email: string;
@@ -19,12 +19,13 @@ interface Values {
   companyName: string;
   "Country/Region": string;
   "Primary development language": string;
-  password: string;
 }
 
 const Register = ({ setUser }: any) => {
+  const [loading, setloading] = useState(false);
   const router = useRouter();
   async function handleRegister(values: Values) {
+    setloading(true);
     const {
       email,
       firstName,
@@ -33,14 +34,13 @@ const Register = ({ setUser }: any) => {
       "Country/Region": region,
       "Primary development language": language,
       Role,
-      password,
     } = values;
     if (!region || !language || !Role) {
+      setloading(false);
       return alert("fill all required details");
     }
 
     try {
-      const user = await createUserWithEmailAndPassword(auth, email, password);
       const res = await addDoc(collection(db, "users"), {
         firstName: firstName,
         lastName: lastName,
@@ -51,10 +51,13 @@ const Register = ({ setUser }: any) => {
         developmentLanguage: language,
       });
       if (res) {
-        router.push("/login");
+        setloading(false);
+        router.push(`/register/user?email=${email}`);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setloading(false);
     }
   }
   return (
@@ -64,8 +67,8 @@ const Register = ({ setUser }: any) => {
           <a href='#' className='block'>
             <Image
               src='https://signup.heroku.com/assets/logo-horizontal-30c94876b673967b26d0e4a698748b3a157e699845045b3b64fe69706c794bb9.png'
-              width={120}
-              height={120}
+              width={140}
+              height={140}
               alt='logo'
             />
           </a>
@@ -73,7 +76,7 @@ const Register = ({ setUser }: any) => {
             <span className='hidden md:inline-block mr-2'>
               Already have an account?
             </span>
-            <button className='bg-[rgba(0,0,0,0.2)] px-2 py-1 rounded'>
+            <button className='bg-[rgba(0,0,0,0.2)] px-4 py-2 rounded'>
               <Link href='/login'>Log in</Link>
             </button>
           </div>
@@ -83,25 +86,28 @@ const Register = ({ setUser }: any) => {
           Get started on Heroku today
         </h1>
       </header>
-      <div className='relative mb-4 '>
-        <div className='p-4 bg-[#F9F9FB] mr-2 rounded'>
-          <section className='p-8 md:w-[360px] h-[760px]'>
+      <div className='relative mb-4'>
+        <div className='p-4 bg-[#F9F9FB] mr-2 rounded signup-form'>
+          <section className='p-8 md:w-[360px] h-[745px]'>
             <RegisterBenefits
               title='Heroku Account'
+              iconName='HiOutlineUserCircle'
               subtitle='Create apps, connect databases and add-on services, and collaborate on your apps.'
             />
             <hr className='my-8' />
             <RegisterBenefits
               title='Your app platform'
+              iconName='RiSettingsLine'
               subtitle='A platform for apps, with app management & instant scaling, for development and production.'
             />
             <hr className='my-8' />
             <RegisterBenefits
               title='Deploy now'
+              iconName='AiOutlineCloudUpload'
               subtitle='Go from code to running app in minutes. Deploy, scale, and deliver your app to the world.'
             />
           </section>
-          <section className='shadow-lg lg:absolute top-5 right-0 bg-white lg:w-[360px] rounded'>
+          <section className='form-section lg:absolute top-5 right-0 bg-white lg:w-[360px] rounded'>
             <Formik
               initialValues={{
                 firstName: "",
@@ -111,13 +117,12 @@ const Register = ({ setUser }: any) => {
                 "Primary development language": "",
                 "Country/Region": "",
                 companyName: "",
-                password: "",
               }}
               onSubmit={(
                 values: Values,
                 { setSubmitting }: FormikHelpers<Values>
               ) => {
-                handleRegister(values);
+                handleRegister(values).then(() => setSubmitting(false));
               }}>
               <Form className='p-8 border rounded text-[#62748e]'>
                 <FormField
@@ -125,7 +130,6 @@ const Register = ({ setUser }: any) => {
                   name='firstName'
                   isRequired={true}
                   type='text'
-                  values={[]}
                 />
                 <FormField
                   title='Last Name'
@@ -139,21 +143,12 @@ const Register = ({ setUser }: any) => {
                   name='email'
                   isRequired={true}
                   type='email'
-                  values={[]}
-                />
-                <FormField
-                  title='Password'
-                  name='password'
-                  type='password'
-                  isRequired={true}
-                  values={[]}
                 />
                 <FormField
                   title='Company Name'
                   name='companyName'
                   isRequired={false}
                   type='text'
-                  values={[]}
                 />
                 <FormField
                   title='Role'
@@ -171,35 +166,44 @@ const Register = ({ setUser }: any) => {
                   title='Country/Region'
                   isRequired={true}
                   type='select'
-                  values={[
-                    "Agency / Partner Developer",
-                    "Hobbyist",
-                    "Proffesional Developer",
-                    "Student",
-                    "Business Manager",
-                  ]}
+                  values={countries}
                 />
                 <FormField
                   title='Primary development language'
                   isRequired={true}
                   type='select'
                   values={[
-                    "Agency / Partner Developer",
-                    "Hobbyist",
-                    "Proffesional Developer",
-                    "Student",
-                    "Business Manager",
+                    "Ruby",
+                    "PHP",
+                    "Python",
+                    "Node.js",
+                    "Java",
+                    "Scala",
+                    "Go",
+                    "I user another language",
+                    "I'm not a developer",
                   ]}
                 />
 
                 <button
                   type='submit'
-                  className='block uppercase w-full bg-[#1969ca] text-white text-[11px] py-3 font-bold mt-4 rounded'>
-                  Create an account
+                  className='block uppercase w-full bg-[#1969ca] text-white text-[14px] py-3 font-bold mt-4 rounded'>
+                  {loading ? "Creating..." : "Create an account"}
                 </button>
                 <p className='text-sm mt-4 text-[#383E40]'>
-                  Signing up signifies that you have read and agree to the Terms
-                  of Service and our Privacy Policy. Cookie Preferences.
+                  Signing up signifies that you have read and agree to the{" "}
+                  <a href='#' className='underline text-blue-500'>
+                    Terms of Service{" "}
+                  </a>
+                  and our{" "}
+                  <a href='#' className='underline text-blue-500'>
+                    Privacy Policy{" "}
+                  </a>
+                  .{" "}
+                  <a href='#' className='underline text-blue-500'>
+                    Cookie Preferences
+                  </a>
+                  .
                 </p>
               </Form>
             </Formik>
